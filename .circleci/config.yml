@@ -17,7 +17,7 @@ commands:
       - run:
           name: Install Ansible v2
           command: |
-            sudo apt Update
+            sudo apt update
             sudo apt install software-properties-common
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible
@@ -203,11 +203,11 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
-          name: Configure server
+          name: Configure Server
           command: |
             cd .circleci/ansible
             cat inventory.txt
-            ansible-playbook -i inventory.text configure-server.yml
+            ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
 
 
