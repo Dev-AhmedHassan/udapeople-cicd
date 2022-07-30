@@ -6,8 +6,8 @@ export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
 export TYPEORM_MIGRATIONS=./migrations/*{.ts,.js}
 
 # Things you can change if you wish...
-export TYPEORM_HOST=<RDS Instance Endpoint>
-export TYPEORM_PORT=<RDS Instance Port>
-export TYPEORM_USERNAME=<RDS Instance Username>
-export TYPEORM_PASSWORD=<RDS Instance Password>
-export TYPEORM_DATABASE=<RDS Instance Database>
+export TYPEORM_HOST=udapeople-db.c0mi0c7dxulg.us-west-2.rds.amazonaws.com
+export TYPEORM_PORT=5432
+export TYPEORM_USERNAME=postgres
+export TYPEORM_PASSWORD=TQ4JkST6tx11cTWG7CcO
+export TYPEORM_DATABASE=glee
