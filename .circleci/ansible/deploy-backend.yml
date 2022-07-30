@@ -1,5 +1,5 @@
 ---
-- name: "configuration play." 
+- name: "deployment play." 
   hosts: web
   remote_user: ubuntu
   become: true
@@ -7,9 +7,9 @@
   become_user: root
   gather_facts: false
   vars:
-    - ansible_python_interpreter: /usr/bin/python3
-    - ansible_host_key_checking: false
-    - ansible_stdout_callback: yaml
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_host_key_checking: false
+    ansible_stdout_callback: yaml
 
   environment:
     NODE:ENV: production
