@@ -306,6 +306,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+             sudo apt -y install tar gzip curl
              cd backend
              npm install
       - run:
