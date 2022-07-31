@@ -25,9 +25,9 @@
     TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
 
   pre_tasks:
-    - name: "wait 200 seconds for target connection to become rachable/usable"
+    - name: "wait 300 seconds for target connection to become rachable/usable"
       wait_for_connection:
-        timeout: 200
+        timeout: 300
 
     - name: "install python for Ansible."
       become: true
