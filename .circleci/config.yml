@@ -276,48 +276,114 @@ jobs:
       - destroy-environment
       - revert-migrations           
                     
-  deploy-backend:
+  # deploy-backend:
+  #   docker:
+  #     - image: cimg/base:stable
+  #   steps:
+  #     - checkout
+  #     - install_awscli
+  #     - install_ansible
+  #     - install_nodejs 
+  #     - add_ssh_keys:
+  #         fingerprints: ["49:8c:4a:71:20:ff:35:5f:95:87:7e:f7:75:8f:3b:f6"]    
+  #     - attach_workspace:
+  #         at: ~/
+  #     - restore_cache:
+  #         keys: [backend-deps]
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #            cd backend
+  #            npm install
+  #     - run:
+  #         name: Package Backend
+  #         command: |
+  #           cd backend
+  #           npm install
+  #           npm run build
+  #           tar -czf artifact.tar.gz dist/* package*
+
+  #           cd ..
+  #           cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+  #     - run:
+  #         name: Deploy backend
+  #         command: |
+  #           export TYPEORM_MIGRATIONS_DIR=./migrations
+  #           export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+  #           export TYPEORM_MIGRATIONS=./migrations/*.ts
+
+  #           cd .circleci/ansible
+  #           cat inventory.txt
+  #           ansible-playbook -i inventory.txt deploy-backend.yml
+
+  #     - destroy-environment
+  #     - revert-migrations
+
+deploy-backend:
     docker:
       - image: cimg/base:stable
     steps:
+      # Checkout code from git
       - checkout
+      - install_nodejs  
       - install_awscli
       - install_ansible
-      - install_nodejs 
+      # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints: ["49:8c:4a:71:20:ff:35:5f:95:87:7e:f7:75:8f:3b:f6"]    
+
+      # - run:
+      #     name: test ansible can connec to ec2 instance
+      #     command: |
+      #       cd .circleci/ansible
+      #       ansible-playbook -i inventory.txt deploy-backend.yml
+
+      # attach workspace
       - attach_workspace:
           at: ~/
       - restore_cache:
-          keys: [backend-deps]
+          keys: ['backend-deps']
       - run:
           name: Install dependencies
           command: |
-             cd backend
-             npm install
+            cd backend
+            npm install
       - run:
-          name: Package Backend
+          name: package backend
           command: |
             cd backend
             npm install
             npm run build
-            tar -czf artifact.tar.gz dist/* package*
 
+            # Zip the directory
+            tar -czvf artifact.tar.gz dist/* package*
+
+            # go up for the project root directory
             cd ..
+
+            # make directory if not exists
+            mkdir -p .circleci/ansible/roles/deploy/files
+
+            # copy the artifact 
             cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+
+            ls .circleci/ansible/roles/deploy/files 
       - run:
           name: Deploy backend
           command: |
+
             export TYPEORM_MIGRATIONS_DIR=./migrations
-            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
+            export TYPEORM_ENTITIES=./modules/domain/*/.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
 
             cd .circleci/ansible
+            echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
+            export ANSIBLE_HOST_KEY_CHECKING=False 
             ansible-playbook -i inventory.txt deploy-backend.yml
-
+      # Here's where you will add some code to rollback on failure  
       - destroy-environment
-      - revert-migrations 
+      - revert-migrations
 
   # smoke-test:
   #   docker:
