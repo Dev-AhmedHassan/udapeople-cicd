@@ -336,6 +336,17 @@ jobs:
   deploy-backend:
     docker:
       - image: cimg/base:stable
+        environment:
+          ENVIRONMENT: "production"
+          TYPEORM_CONNECTION: $TYPEORM_CONNECTION
+          TYPEORM_HOST: $TYPEORM_HOST 
+          TYPEORM_USERNAME: $TYPEORM_USERNAME
+          TYPEORM_PASSWORD: $TYPEORM_PASSWORD
+          TYPEORM_DATABASE: $TYPEORM_DATABASE
+          TYPEORM_PORT: $TYPEORM_PORT
+          TYPEORM_MIGRATIONS:  "./migrations/*.ts"
+          TYPEORM_ENTITIES:   "./modules/domain/**/*.entity(.ts,.js)"
+          TYPEORM_MIGRATIONS_DIR: "./migrations"
     steps:
       # Checkout code from git
       - checkout
@@ -359,6 +370,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            sudo apt -y install tar gzip curl
             cd backend
             npm install
       - run:
