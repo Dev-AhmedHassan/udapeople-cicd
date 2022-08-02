@@ -28,15 +28,15 @@
 #     state: latest
 #     update_cache: yes
 
-# - name: "install pm2 globally"
-#   become: true
-#   npm:
-#     name: pm2
-#     global: yes
-#     production: yes
-#     state: present
-
 - name: "install pm2 globally"
+  become: true
   npm:
     name: pm2
     global: yes
+    production: yes
+    state: present
+
+# - name: "install pm2 globally"
+#   npm:
+#     name: pm2
+#     global: yes
