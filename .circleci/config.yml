@@ -70,7 +70,7 @@ commands:
           when: on_fail
           command: |
             SUCCESS=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.Workflow_ID >>)
-            if(( $SUCCESS==1 )); 
+            if(( $SUCCESS==2 )); 
             then
              cd ~/project/backend
              npm install
@@ -239,6 +239,8 @@ jobs:
     steps:
       - checkout
       - install_awscli
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migrations
           command: |
@@ -250,7 +252,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
+              curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '2'
             fi
       - destroy-environment
       - revert-migrations
@@ -343,7 +345,6 @@ jobs:
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints: ["49:8c:4a:71:20:ff:35:5f:95:87:7e:f7:75:8f:3b:f6"]    
-
       # - run:
       #     name: test ansible can connec to ec2 instance
       #     command: |
@@ -383,7 +384,6 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-
             export TYPEORM_MIGRATIONS_DIR=./migrations
             export TYPEORM_ENTITIES=./modules/domain/*/.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
