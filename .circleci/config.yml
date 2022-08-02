@@ -371,27 +371,28 @@ jobs:
           name: Install dependencies
           command: |
             sudo apt -y install tar gzip curl
-            cd backend
-            npm install
+            # cd backend
+            # npm install
       - run:
           name: package backend
           command: |
             cd backend
             npm install
             npm run build
-
-            # Zip the directory
-            tar -czvf artifact.tar.gz dist/* package*
+            cd ..
+            tar -C backend -czvf artifact.tar.gz .
+            # tar -czvf artifact.tar.gz dist/* package*
 
             # go up for the project root directory
-            cd ..
+           
 
             # make directory if not exists
             mkdir -p .circleci/ansible/roles/deploy/files
 
             # copy the artifact 
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+            # cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
 
+            cp artifact.tar.gz .circleci/ansible/roles/deploy/files
             ls .circleci/ansible/roles/deploy/files 
       - run:
           name: Deploy backend
@@ -403,7 +404,7 @@ jobs:
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
-            export ANSIBLE_HOST_KEY_CHECKING=False 
+            # export ANSIBLE_HOST_KEY_CHECKING=False 
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
       - destroy-environment
