@@ -355,7 +355,7 @@ jobs:
           TYPEORM_DATABASE: "glee"
           TYPEORM_PORT: "5432"
           TYPEORM_MIGRATIONS:  "./migrations/*.ts"
-          TYPEORM_ENTITIES:   "./modules/domain/**/*.entity(.ts,.js)"
+          TYPEORM_ENTITIES:   "./modules/domain/**/*.entity{.ts,.js}"
           TYPEORM_MIGRATIONS_DIR: "./migrations"
     steps:
       # Checkout code from git
@@ -380,7 +380,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo apt -y install tar gzip curl
             cd backend
             npm install
       - run:
