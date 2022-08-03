@@ -88,7 +88,7 @@
     - TYPEORM_DATABASE: "glee"
     - TYPEORM_PORT: "5432"
     - TYPEORM_MIGRATIONS:  "./migrations/*.ts"
-    - TYPEORM_ENTITIES:   "./modules/domain/**/*.entity(.ts,.js)"
+    - TYPEORM_ENTITIES:   "./modules/domain/**/*.entity{.ts,.js}"
     - TYPEORM_MIGRATIONS_DIR: "./migrations"
 
   roles:
