@@ -391,7 +391,7 @@ jobs:
             npm run build
 
             # Zip the directory
-            tar -czvf artifact.tar.gz dist/* package*
+            tar -czvf artifact.tar.gz *
 
             # go up for the project root directory
             cd ..
