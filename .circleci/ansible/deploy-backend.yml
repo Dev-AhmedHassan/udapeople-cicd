@@ -81,6 +81,7 @@
     # - TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
     # - TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
     - ENVIRONMENT: "production"
+    - NODE_ENV: "production"
     - TYPEORM_CONNECTION: "postgres"
     - TYPEORM_HOST: "udapeople-db.c0mi0c7dxulg.us-west-2.rds.amazonaws.com" 
     - TYPEORM_USERNAME: "postgres"

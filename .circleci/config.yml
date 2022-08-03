@@ -348,6 +348,7 @@ jobs:
           # TYPEORM_ENTITIES:   "./modules/domain/**/*.entity(.ts,.js)"
           # TYPEORM_MIGRATIONS_DIR: "./migrations"
           ENVIRONMENT: "production"
+          NODE_ENV: "production"
           TYPEORM_CONNECTION: "postgres"
           TYPEORM_HOST: "udapeople-db.c0mi0c7dxulg.us-west-2.rds.amazonaws.com" 
           TYPEORM_USERNAME: "postgres"
