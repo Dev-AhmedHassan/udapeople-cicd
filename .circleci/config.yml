@@ -477,7 +477,7 @@ jobs:
             export KVDB_URL="https://kvdb.io/${KVDB_BUCKET}/${OLD_WORKFLOW_ID}"
             echo "KVDB URL = ${KVDB_URL}" 
 
-            curl https://kvdb.io/${KVDB_BUCKET}/old_workflow_id -d "${OLD_WORKFLOW_ID}""
+            curl https://kvdb.io/${KVDB_BUCKET}/old_workflow_id -d "${OLD_WORKFLOW_ID}"
 
            # curl  https://kvdb.io/UVFX6pNuFaTkECHy7n5uNA/test1 -d 3
 
