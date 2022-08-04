@@ -252,7 +252,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '2'
+              curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
       - destroy-environment
       - revert-migrations
@@ -470,19 +470,22 @@ jobs:
           name: Save Old Workflow ID to kvdb.io
           command: |
             export OLD_WORKFLOW_ID$(aws cloudformation \
-                      list-exports --query "Exports[?Name==\`WorkFlowID\`].Value" \
+                      list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                       --no-paginate --output text)
             echo "Old Workflow ID: ${OLD_WORKFLOW_ID}"
             export KVDB_URL="https://kvdb.io/${KVDB_BUCKET}/${OLD_WORKFLOW_ID}"
             echo "KVDB URL = ${KVDB_URL}" 
-            curl $KVDB_URL  -d "OLD_WORKFLOW_ID"
+
+            curl https://kvdb.io/${KVDB_BUCKET}/${OLD_WORKFLOW_ID} -d '${OLD_WORKFLOW_ID}'
+
       - run:
           name: Update Cloudfront distribution
           command: |
+
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"  
-              --stack-name InitailStack 
+              --stack-name InitialStack 
       - destroy-environment
       - revert-migrations 
 
