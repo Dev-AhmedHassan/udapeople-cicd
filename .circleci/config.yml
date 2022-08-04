@@ -439,14 +439,14 @@ jobs:
 
             # export API_URL=http//${BACKEND_PUBLIC_IP}:3030"
             
-            API_URL=http//${BACKEND_PUBLIC_IP}:3030/api/status"
+            export  API_URL=http//${BACKEND_PUBLIC_IP}:3030/api/status"
             echo "API_URL :  ${API_URL}"
 
             if( curl -s $API_URL | grep "ok")
             then
               exit 0
             else
-              exit 0
+              exit 1
             fi
       - run:
           name: Frontend smoke test.
