@@ -436,12 +436,11 @@ jobs:
 
             
             echo "API_URL=http://${BACKEND_PUBLIC_IP}:3030" 
-            cat frontend/.env
 
             # export API_URL=http//${BACKEND_PUBLIC_IP}:3030"
             
             API_URL=http//${BACKEND_PUBLIC_IP}:3030/api/status"
-            echo "API_URL=http://${API_URL}"
+            echo "API_URL :  ${API_URL}"
 
             if( curl -s $API_URL | grep "ok")
             then
