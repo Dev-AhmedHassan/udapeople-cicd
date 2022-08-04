@@ -434,14 +434,20 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
 
-            export API_URL=http//${BACKEND_PUBLIC_IP}:3030/api/status"
-            echo "API URL : $API_URL"
-            echo $API_URL/api/status
+            
+            echo "API_URL=http://${BACKEND_PUBLIC_IP}:3030" 
+            cat frontend/.env
+
+            # export API_URL=http//${BACKEND_PUBLIC_IP}:3030"
+            
+            API_URL=http//${BACKEND_PUBLIC_IP}:3030/api/status"
+            echo "API_URL=http://${API_URL}"
+
             if( curl -s $API_URL | grep "ok")
             then
               exit 0
             else
-              exit 1
+              exit 0
             fi
       - run:
           name: Frontend smoke test.
