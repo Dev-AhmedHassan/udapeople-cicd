@@ -434,7 +434,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             
-            export  API_URL="http//${BACKEND_PUBLIC_IP}:3030/api/status"
+            export  API_URL="http://${BACKEND_PUBLIC_IP}:3030/api/status"
             echo "API_URL :  ${API_URL}"
             echo curl -s $API_URL
             echo curl  $API_URL
